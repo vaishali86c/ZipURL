@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv"
 import connectDb from "./db/index.js";
 //routes 
-import healthCheckRoute from "./routes/healthCheck.route.js"
+import healthCheckRouter from "./routes/healthCheck.route.js"
+import userRouter from "./routes/user.route.js"
 
 const app = express();
 
@@ -20,8 +21,8 @@ app.get('/', (req, res) => {
 })
 
 
-app.use("/api/v1", healthCheckRoute)
-
+app.use("/api/v1", healthCheckRouter)
+app.use("/api/v1/user", userRouter)
 
 
 

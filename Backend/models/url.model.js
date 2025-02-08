@@ -4,7 +4,10 @@ import mongoose, { model } from "mongoose"
 const urlSchema = new mongoose.Schema({
     url: {
         type: String
-    }, 
+    },
+    count: {
+        type: Number
+    },
     shortId: {
         type: String, 
         unique: true
