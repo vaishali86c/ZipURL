@@ -1,9 +1,18 @@
 import express from "express";
-import ApiResponse from "./utils/ApiResponse.js";
+import dotenv from "dotenv"
+import connectDb from "./db/index.js";
+//routes 
+import healthCheckRoute from "./routes/healthCheck.route.js"
 
 const app = express();
 
 const PORT = process.env.PORT || 8002
+
+// configuration dotenv
+dotenv.config()
+// Database connection
+connectDb()
+
 
 app.get('/', (req, res) => {
     res.send(" Api working !")
@@ -11,11 +20,12 @@ app.get('/', (req, res) => {
 })
 
 
-//routes 
-
-import healthCheckRoute from "./routes/healthCheck.route.js"
-
 app.use("/api/v1", healthCheckRoute)
+
+
+
+
+
 
 
 
