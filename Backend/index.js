@@ -6,10 +6,17 @@ const app = express();
 const PORT = process.env.PORT || 8002
 
 app.get('/', (req, res) => {
-    // res.send(" Api working !")
-
-    return res.send(new ApiResponse(200, {"name" : "sushant"}))
+    res.send(" Api working !")
+   
 })
+
+
+//routes 
+
+import healthCheckRoute from "./routes/healthCheck.route.js"
+
+app.use("/api/v1", healthCheckRoute)
+
 
 
 app.listen(PORT, () => {
