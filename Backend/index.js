@@ -4,6 +4,7 @@ import connectDb from "./db/index.js";
 //routes 
 import healthCheckRouter from "./routes/healthCheck.route.js"
 import userRouter from "./routes/user.route.js"
+import errorHandler from "./middlewares/error.middleware.js";
 
 const app = express();
 
@@ -27,8 +28,7 @@ app.use("/api/v1/user", userRouter)
 
 
 
-
-
+app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`);
