@@ -3,8 +3,8 @@ import { handleLogin, handleLogout, handleRegister } from "../controllers/user.c
 
 const router = Router();
 
-router.route("/register").get(handleRegister)
-router.route("/login").get(handleLogin)
+router.route("/register").post(handleRegister)
+router.route("/login").post(handleLogin)
 router.route("/logout").get(handleLogout)
 
 export default router

@@ -7,6 +7,8 @@ import userRouter from "./routes/user.route.js"
 import errorHandler from "./middlewares/error.middleware.js";
 
 const app = express();
+//External middleware
+app.use(express.json())
 
 const PORT = process.env.PORT || 8002
 
@@ -22,7 +24,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.use("/api/v1", healthCheckRouter)
+app.use("/api/v1/healthCheck", healthCheckRouter)
 app.use("/api/v1/user", userRouter)
 
 
