@@ -14,8 +14,15 @@ const getZipUrl = asyncHandler(async(req, res) => {
     if(!urlSchema.safeParse(req.body).success) {
         throw new ApiError(400, "Url does not valid")
     }
+    let generatedUrl = ''
     const { url } = req.body
     const shortId = nanoid(6)
+
+    const existedUrl = await Url.findOne({url})
+    if(existedUrl) {
+        generatedUrl = `${process.env.URL}${existedUrl.shortId}`
+        return res.status(200).json(new ApiResponse(200, generatedUrl, "Url Generated" ))
+    }
 
     const urlObj = await Url.create({
         url,
@@ -24,8 +31,18 @@ const getZipUrl = asyncHandler(async(req, res) => {
     if(!urlObj) {
         throw new ApiError(404, "Something went wrong")
     }
-    const generatedUrl = `${process.env.URL}${shortId}`
+    generatedUrl = `${process.env.URL}${shortId}`
     return res.status(200).json(new ApiResponse(200, generatedUrl, "Url Generated" ))
 })
 
-export default getZipUrl
+const handleRedirect = asyncHandler(async(req, res) => {
+    const shortId = req.params.shortId;
+
+    const url = await Url.findOne({shortId})
+    if(!url) {
+        throw new ApiError(404, "Invalid Url")
+    }
+    return res.redirect(url.url)
+})
+
+export { getZipUrl, handleRedirect }

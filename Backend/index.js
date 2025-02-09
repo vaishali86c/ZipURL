@@ -6,6 +6,7 @@ import healthCheckRouter from "./routes/healthCheck.route.js"
 import userRouter from "./routes/user.route.js"
 import urlRouter from "./routes/url.route.js"
 import errorHandler from "./middlewares/error.middleware.js";
+import { handleRedirect } from "./controllers/url.controller.js"
 
 const app = express();
 //External middleware
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
 app.use("/api/v1/healthCheck", healthCheckRouter)
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/url", urlRouter)
-
+app.use("/:shortId", handleRedirect)
 
 
 
