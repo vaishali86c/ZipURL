@@ -4,6 +4,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import zod from "zod"
 import ApiResponse from "../utils/ApiResponse.js";
 import { Url } from "../models/url.model.js"
+import { User } from "../models/user.model.js";
 
 const urlSchema = zod.object({
     url: zod.string(),
@@ -20,6 +21,12 @@ const getZipUrl = asyncHandler(async(req, res) => {
 
     const existedUrl = await Url.findOne({url})
     if(existedUrl) {
+        if(req._id) {
+            await User.findByIdAndUpdate(req._id, 
+                { $addToSet: {urls: existedUrl._id}}
+            )
+        }
+
         generatedUrl = `${process.env.URL}${existedUrl.shortId}`
         return res.status(200).json(new ApiResponse(200, generatedUrl, "Url Generated" ))
     }
@@ -30,6 +37,11 @@ const getZipUrl = asyncHandler(async(req, res) => {
     })
     if(!urlObj) {
         throw new ApiError(404, "Something went wrong")
+    }
+    if(req._id) {
+        await User.findByIdAndUpdate(req._id, 
+            { $addToSet: {urls: urlObj._id}}
+        )
     }
     generatedUrl = `${process.env.URL}${shortId}`
     return res.status(200).json(new ApiResponse(200, generatedUrl, "Url Generated" ))

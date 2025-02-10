@@ -1,6 +1,7 @@
 import mongoose, {Schema} from "mongoose"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import { union } from "zod"
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -12,11 +13,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    urls: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Url' 
-    },
-
+    urls: [
+        { 
+            type: Schema.Types.ObjectId, 
+            ref: 'Url',
+        }
+    ],
 }, {
     timestamps: true
 })
