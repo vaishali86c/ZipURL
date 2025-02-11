@@ -23,9 +23,11 @@ const listUrl = asyncHandler(async (req, res) => {
         let urlId = urlIds[i];
         const url = await Url.findById(urlId);
         data.push({
+            _id: url._id,
             longUrl: url.url,
             shortId: `${process.env.URL}${url.shortId}`,
             count: url.count
+            
         });
     }
     return res.status(200).json(new ApiResponse(200, data, "Url Received Successfully"));
@@ -82,4 +84,29 @@ const handleRedirect = asyncHandler(async(req, res) => {
     return res.redirect(url.url)
 })
 
-export { getZipUrl, handleRedirect, listUrl }
+const removeUrl = asyncHandler(async (req, res) => {
+    if (!req._id) {
+        throw new ApiError(404, "Unauthorized Access")
+    }
+
+    const userId = req._id;
+
+    const urlId = req.body.id;
+
+    if (!urlId) {
+        throw new ApiError(404, "urlId is missing")
+    }
+
+    await User.findByIdAndUpdate(
+        userId,
+        { $pull: { urls: urlId } }, 
+        { new: true}
+    );
+
+    await Url.findByIdAndDelete(urlId);
+
+    return res.status(200).json(new ApiResponse(200, {}, "Deleted Successfully"))
+    
+})
+
+export { getZipUrl, handleRedirect, listUrl, removeUrl }
