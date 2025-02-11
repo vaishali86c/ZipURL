@@ -6,7 +6,8 @@ const urlSchema = new mongoose.Schema({
         type: String
     },
     count: {
-        type: Number
+        type: Number,
+        default: 0
     },
     shortId: {
         type: String, 

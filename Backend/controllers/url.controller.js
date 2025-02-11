@@ -24,7 +24,8 @@ const listUrl = asyncHandler(async (req, res) => {
         const url = await Url.findById(urlId);
         data.push({
             longUrl: url.url,
-            shortId: `${process.env.URL}${url.shortId}`
+            shortId: `${process.env.URL}${url.shortId}`,
+            count: url.count
         });
     }
     return res.status(200).json(new ApiResponse(200, data, "Url Received Successfully"));
@@ -39,17 +40,17 @@ const getZipUrl = asyncHandler(async(req, res) => {
     const { url } = req.body
     const shortId = nanoid(6)
 
-    const existedUrl = await Url.findOne({url})
-    if(existedUrl) {
-        if(req._id) {
-            await User.findByIdAndUpdate(req._id, 
-                { $addToSet: {urls: existedUrl._id}}
-            )
-        }
+    // const existedUrl = await Url.findOne({url})
+    // if(existedUrl) {
+    //     if(req._id) {
+    //         await User.findByIdAndUpdate(req._id, 
+    //             { $addToSet: {urls: existedUrl._id}}
+    //         )
+    //     }
 
-        generatedUrl = `${process.env.URL}${existedUrl.shortId}`
-        return res.status(200).json(new ApiResponse(200, generatedUrl, "Url Generated" ))
-    }
+    //     generatedUrl = `${process.env.URL}${existedUrl.shortId}`
+    //     return res.status(200).json(new ApiResponse(200, generatedUrl, "Url Generated" ))
+    // }
 
     const urlObj = await Url.create({
         url,
@@ -70,7 +71,11 @@ const getZipUrl = asyncHandler(async(req, res) => {
 const handleRedirect = asyncHandler(async(req, res) => {
     const shortId = req.params.shortId;
 
-    const url = await Url.findOne({shortId})
+    const url = await Url.findOneAndUpdate({shortId},
+        { $inc: {count: 1}},
+        { new: true}
+    )
+
     if(!url) {
         throw new ApiError(404, "Invalid Url")
     }
