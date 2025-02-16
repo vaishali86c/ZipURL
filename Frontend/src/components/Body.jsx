@@ -1,38 +1,3 @@
-// import React from 'react'
-
-// const Body = () => {
-//   return (
-//     <div className="max-w-4xl mx-auto mt-20 p-6 bg-white rounded-lg text-center">
-//       <h2 className="sm:text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold text-blue-800 mb-10">Shorten. Share. Track.</h2>
-//       <form className="space-y-10">
-//         <input 
-//           type="text" 
-//           name="longurl" 
-//           id="longurl" 
-//           className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600" 
-//           placeholder="Enter your URL..." 
-//         />
-//         <input 
-//           type="text" 
-//           name="shorturl" 
-//           id="shorturl" 
-//           className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600" 
-//           placeholder="Short URL will appear here..." 
-//           readOnly 
-//         />
-//         <button 
-//           type="submit" 
-//           className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-//         >
-//           Generate Short URL
-//         </button>
-//       </form>
-//     </div>
-//   )
-// }
-
-// export default Body
-
 import React from 'react';
 
 const Body = () => {
