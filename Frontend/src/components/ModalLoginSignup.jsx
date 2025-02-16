@@ -40,7 +40,7 @@ const ModalLoginSignup = () => {
       }
     } catch (error) {
       console.log(error)
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 
@@ -54,11 +54,11 @@ const ModalLoginSignup = () => {
         toast.success(res.data.message)
         setIsLoginOpen(false)
       } else {
-        toast.error(res.data.message)
+        toast.error(res.data.data)
       }
     } catch (error) {
       console.log(error)
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 
